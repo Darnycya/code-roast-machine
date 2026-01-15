@@ -1,22 +1,35 @@
 :root {
   --bg: #fafafa;
-  --panel: #ffffff;
-  --text: #111827;
+  --text: #fafafa;
   --muted: #6b7280;
-  --border: #e5e7eb;
+  --border: #07f1d65f;
   --accent: #ef4444; /* roast red */
+  --panel: rgba(20, 24, 55, 0.888);
+  --panel-glow: 0 0 0 1px rgba(120, 100, 255, 0.25),
+                0 20px 40px rgba(0, 0, 0, 0.6);
+  --border: rgba(140, 120, 255, 0.25);
+  --accent: #ff7a18;      
+  --accent-2: #7c7cff;    
+  --accent-3: #00e5ff;    
+  --danger: #ef4444;
 }
+
 
 * {
   box-sizing: border-box;
 }
 
 body {
+  min-height: 100dvh;
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
-  background: var(--bg);
+  background: url("/background.png") center / cover no-repeat;
   color: var(--text);
+}
+
+h2, p, h3, ul {
+  margin: 0;
 }
 
 button {
@@ -47,6 +60,17 @@ textarea {
   resize: vertical;
 }
 
+ul,
+ol {
+  list-style: none;
+  padding: 0;   
+  margin: 0;   
+}
+
+li {
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
 @keyframes shake {
   0% { transform: translateX(0); }
   20% { transform: translateX(-3px); }
@@ -70,3 +94,36 @@ button:active {
   transition: transform 0.1s ease-in-out;
 }
 
+.editorSection {
+  max-width: 40%;
+}
+
+@media (max-width: 1200px) {
+  main {
+    display: block !important;
+    width: 70% !important;
+  }
+
+  .editorSection {
+  max-width: 100%;
+  margin-bottom: 1rem;
+  min-height: fit-content;
+  }
+}
+
+@media (max-width: 960px) {
+    main {
+    width: 90% !important;
+  }
+}
+
+@media (max-width: 620px) {
+
+  .selectContainer {
+    display: block !important;
+  }
+
+  .selectContainer select {
+    margin-bottom: 0 !important;
+  }
+}

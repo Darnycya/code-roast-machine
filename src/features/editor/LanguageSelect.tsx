@@ -5,7 +5,20 @@ type LanguageSelectProps = {
 
 export default function LanguageSelect({ value, onChange }: LanguageSelectProps) {
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value)}>
+    <select
+  value={value}
+  onChange={(e) => onChange(e.target.value)}
+  style={{
+    width: "100%",
+    marginBottom: "0.75rem",
+    padding: "0.6rem 0.75rem",
+    borderRadius: "10px",
+    background: "rgba(30, 35, 80, 0.8)",
+    color: "var(--text)",
+    border: "1px solid var(--border)",
+    outline: "none",
+  }}
+>
       <option value="javascript">JavaScript</option>
       <option value="typescript">TypeScript</option>
       <option value="python">Python</option>
