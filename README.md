@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# 🔥 Code Roaster Machine
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img alt="screenshot" src="/public/screenshot.png">
 
-Currently, two official plugins are available:
+An AI-powered code roasting app that analyzes your code, roasts it based on your chosen intensity, and gives you **actual actionable advice** — not just vibes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Built with:
+- ⚛️ React + TypeScript + Vite (frontend)
+- 🟢 Express + Node.js (backend)
+- 🤖 OpenAI API (structured JSON responses)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🧠 **AI Code Analysis** — Understands what your code is doing
+- 🌍 **Language Awareness** — Detects if you selected the wrong language and roasts you for it
+- 🔥 **Multiple Roast Modes**
+  - **Gentle Mentor** – supportive, light roast
+  - **Blunt Senior** – honest, no-nonsense feedback
+  - **Tech Lead on Deadline** – you asked for chaos, you get chaos
+- 📊 **Severity Score (1–10)** — how bad is it *really*
+- 🧩 **Structured JSON Responses** — no string parsing hacks
+- 🎨 **Animated UI** — roast points fade in with style
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧪 Roast Modes Explained
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Mode | Tone | Severity Range |
+|----|----|----|
+| Gentle Mentor | Encouraging, playful | 1–4 |
+| Blunt Senior | Direct, sarcastic | 4–7 |
+| Tech Lead on Deadline | Aggressive, impatient | 7–10 |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📦 API Request & Response
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Request (`POST /api/roast`)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```json
+{
+  "code": "const x = 1;",
+  "language": "javascript",
+  "roastMode": "mentor"
+}
