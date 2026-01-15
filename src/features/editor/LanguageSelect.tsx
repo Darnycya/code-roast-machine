@@ -21,7 +21,11 @@ export default function LanguageSelect({ value, onChange }: LanguageSelectProps)
 >
       <option value="javascript">JavaScript</option>
       <option value="typescript">TypeScript</option>
+      <option value="html">HTML</option>
+      <option value="java">Java</option>
+      <option value="cpp">C++</option>
       <option value="python">Python</option>
+      <option value="css">CSS</option>
       <option value="other">Other</option>
     </select>
   );

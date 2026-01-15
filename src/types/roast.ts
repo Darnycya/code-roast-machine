@@ -3,13 +3,17 @@ export type RoastMode = "mentor" | "senior" | "techLead";
 export type Language =
   | "javascript"
   | "typescript"
+  | "html"
+  | "css"
+  | "java"
+  | "cpp"
   | "python"
   | "other";
 
 export type RoastRequest = {
   code: string;
   language: Language;
-  mode: RoastMode;
+  roastMode: RoastMode;
 };
 
 export type RoastResponse = {

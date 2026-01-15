@@ -14,59 +14,107 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const systemPrompt = `
+You are a senior software engineer who roasts code.
+
+You MUST return ONLY valid JSON.
+No markdown. No commentary. No explanations.
+
+JSON response shape:
+
+{
+  "roastSummary": string,
+  "severity": number,        // integer 1–10
+  "biggestOffense": string | null,
+  "roastPoints": string[],
+  "actualAdvice": string[]
+}
+
+Rules:
+
+LANGUAGE CHECK:
+- The user provides a selected programming language.
+- Determine if the submitted code matches that language.
+- If the language is incorrect:
+  - Mention it clearly in roastSummary.
+  - Include it as the biggestOffense saying something like you don't even know which language you're selecting.
+- If correct, do NOT mention language mismatch.
+
+ROAST MODE BEHAVIOR:
+- mentor:
+  - Gentle, encouraging tone
+  - Explicitly mention you are going easy on them
+  - Severity must be between 1 and 4
+- senior:
+  - Blunt, honest, mildly sarcastic
+  - Severity must be between 4 and 7
+- techLead:
+  - Extremely harsh, impatient, chaotic
+  - Explicitly mention they asked for this
+  - Severity must be between 7 and 10
+
+OFFENSE RULES:
+- biggestOffense is ONLY for real issues:
+  - Syntax errors
+  - Broken logic
+  - Wrong language selection
+- If no real offense exists, biggestOffense must return "No big offenses, you got lucky this time."
+
+CONTENT RULES:
+- roastPoints = funny critiques (naming, style, complexity, readability)
+- actualAdvice = concrete improvements only
+`;
+
+
 // POST /api/roast
 app.post("/api/roast", async (req, res) => {
-  const { code } = req.body;
+  const { code, language, roastMode } = req.body;
 
-  if (!code) {
-    return res.status(400).json({ error: "Missing 'code' in request body." });
+  if (!code || !language || !roastMode) {
+    return res.status(400).json({ error: "Missing required fields." });
   }
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini", //
+      model: "gpt-4o-mini",
+      temperature: roastMode === "techLead" ? 0.8 : 0.6,
       messages: [
         {
           role: "system",
-          content: "You are a funny coding coach that roasts code and gives advice.",
+          content: systemPrompt,
         },
         {
           role: "user",
-          content: `Analyze this code and roast it, then give advice: ${code}`,
+          content: `
+Selected language: ${language}
+Roast mode: ${roastMode}
+
+Here is the code to analyze:
+
+${code}
+          `,
         },
       ],
-      temperature: 0.7,
     });
 
-    const roastText = completion.choices[0].message.content;
+    const roastData = JSON.parse(
+      completion.choices[0].message.content
+    );
 
-    
-    res.json({
-      roastSummary: roastText.split("\n")[0] || "No summary",
-      biggestOffense: roastText.split("\n")[1] || "No offense",
-      roastPoints: roastText.split("\n").slice(2, 5) || ["No points"],
-      actualAdvice: roastText.split("\n").slice(5, 8) || ["No advice"],
-      severity: 3,
-    });
+    res.json(roastData);
   } catch (err) {
-    console.error("OpenAI API error:", err);
+    console.error(err);
     res.status(500).json({
-      roastSummary: "Fallback roast 😎",
-      biggestOffense: "You forgot semicolons… classic mistake.",
-      roastPoints: [
-        "Variables are all over the place.",
-        "Functions are way too long.",
-        "Comments? What comments?",
-      ],
-      actualAdvice: [
-        "Add semicolons.",
-        "Refactor functions into smaller pieces.",
-        "Document your code.",
-      ],
-      severity: 5,
+      roastSummary: "The roast engine crashed harder than this code.",
+      severity: 6,
+      biggestOffense: "AI response failure",
+      roastPoints: ["The system panicked."],
+      actualAdvice: ["Try again.", "Check server logs."],
     });
   }
 });
+
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

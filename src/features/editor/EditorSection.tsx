@@ -8,8 +8,8 @@ type Props = {
   setCode: (c: string) => void;
   language: Language;
   setLanguage: (l: Language) => void;
-  mode: RoastMode;
-  setMode: (m: RoastMode) => void;
+  roastMode: RoastMode;
+  setRoastMode: (m: RoastMode) => void;
   onRoast: () => void;
 };
 
@@ -18,8 +18,8 @@ export default function EditorSection({
   setCode,
   language,
   setLanguage,
-  mode,
-  setMode,
+  roastMode,
+  setRoastMode,
   onRoast,
 }: Props) {
   return (
@@ -36,7 +36,7 @@ export default function EditorSection({
     >
       <div className="selectContainer" style={{ display: "flex", gap: "0.5rem" }}>
         <LanguageSelect value={language} onChange={setLanguage} />
-        <RoastModeSelect value={mode} onChange={setMode} />
+        <RoastModeSelect value={roastMode} onChange={setRoastMode} />
       </div>
       <CodeEditor code={code} onChange={setCode} />
       <button

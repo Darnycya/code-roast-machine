@@ -8,13 +8,13 @@ import { getRoast } from "./utils/openai";
 function App() {
   const [code, setCode] = useState<string>("");
   const [language, setLanguage] = useState<Language>("javascript");
-  const [mode, setMode] = useState<RoastMode>("mentor");
+  const [roastMode, setRoastMode] = useState<RoastMode>("mentor");
   const [roast, setRoast] = useState<RoastResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
 
 const handleRoast = async () => {
-  const request: RoastRequest = { code, language, mode };
+  const request: RoastRequest = { code, language, roastMode };
 
   setLoading(true);
   setRoast(null);
@@ -39,8 +39,8 @@ const handleRoast = async () => {
           setCode={setCode}
           language={language}
           setLanguage={setLanguage}
-          mode={mode}
-          setMode={setMode}
+          roastMode={roastMode}
+          setRoastMode={setRoastMode}
           onRoast={handleRoast}
         />
         <RoastOutput roast={roast} loading={loading} />

@@ -20,9 +20,9 @@ export default function RoastModeSelect({ value, onChange }: RoastModeSelectProp
   }}
 >
 
-      <option value="mentor">Gentle Mentor</option>
-      <option value="senior">Blunt Senior</option>
-      <option value="techLead">Tech Lead on Deadline</option>
+<option value="mentor">Gentle Mentor</option>
+<option value="senior">Blunt Senior</option>
+<option value="techLead">Tech Lead on Deadline</option>
     </select>
   );
 }
