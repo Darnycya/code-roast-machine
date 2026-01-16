@@ -1,17 +1,24 @@
 import type { RoastRequest, RoastResponse } from "../types/roast";
 
 const API_URL =
-  import.meta.env.DEV
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.MODE === "development"
     ? "http://localhost:4000/api/roast"
-    : "/.netlify/functions/roast";
+    : "/.netlify/functions/roast");
 
-export const getRoast = async (request: RoastRequest): Promise<RoastResponse> => {
+export const getRoast = async (
+  request: RoastRequest
+): Promise<RoastResponse> => {
   try {
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(request),
     });
+
+    if (!res.ok) {
+      throw new Error(`Roast API failed with status ${res.status}`);
+    }
 
     const data: RoastResponse = await res.json();
 
