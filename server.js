@@ -7,24 +7,21 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const systemPrompt = `
 You are a senior software engineer who roasts code.
 
 You MUST return ONLY valid JSON.
-No markdown. No commentary. No explanations.
+The response MUST be in JSON format.
 
 JSON response shape:
 
 {
   "roastSummary": string,
-  "severity": number,        // integer 1–10
+  "severity": number,
   "biggestOffense": string | null,
   "roastPoints": string[],
   "actualAdvice": string[]
@@ -80,10 +77,7 @@ app.post("/api/roast", async (req, res) => {
       temperature: roastMode === "techLead" ? 0.8 : 0.6,
       response_format: { type: "json_object" },
       messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
+        { role: "system", content: systemPrompt },
         {
           role: "user",
           content: `
@@ -93,14 +87,14 @@ Roast mode: ${roastMode}
 Here is the code to analyze:
 
 ${code}
+
+⚠️ Respond in valid JSON only.
           `,
         },
       ],
     });
 
-    const roastData = JSON.parse(
-      completion.choices[0].message.content
-    );
+    const roastData = completion.choices[0].message.content;
 
     res.json(roastData);
   } catch (err) {
@@ -114,8 +108,6 @@ ${code}
     });
   }
 });
-
-
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
