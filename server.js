@@ -88,15 +88,16 @@ Here is the code to analyze:
 
 ${code}
 
-⚠️ Respond in valid JSON only.
+ Respond in valid JSON only.
           `,
         },
       ],
     });
 
-    const roastData = completion.choices[0].message.content;
-
-    res.json(roastData);
+const roastData = completion.choices[0].message.content;
+const parsedData = typeof roastData === "string" ? JSON.parse(roastData) : roastData;
+    res.json(parsedData);
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({

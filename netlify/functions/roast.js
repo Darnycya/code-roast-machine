@@ -96,12 +96,17 @@ Remember: Respond in valid JSON only.
     });
 
     // completion.choices[0].message.content is guaranteed JSON now
-    const roastData = completion.choices[0].message.content;
+const roastData = completion.choices[0].message.content;
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(roastData),
-    };
+// If content is a string, parse it into an object
+const parsedData =
+  typeof roastData === "string" ? JSON.parse(roastData) : roastData;
+
+return {
+  statusCode: 200,
+  body: JSON.stringify(parsedData),
+};
+
   } catch (err) {
     console.error(err);
     return {
