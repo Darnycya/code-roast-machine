@@ -27,6 +27,7 @@ export async function handler(event) {
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       temperature: roastMode === "techLead" ? 0.8 : 0.6,
+      response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemPrompt },
         {
