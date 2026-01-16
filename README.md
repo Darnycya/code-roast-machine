@@ -3,6 +3,8 @@
 <img alt="screenshot" src="/public/screenshot.png">
 Try it out here: <a target="_blank" rel="noopener noreferrer" href="https://coderoastmachine.netlify.app/">https://coderoastmachine.netlify.app/</a>
 
+---
+
 An AI-powered code roasting app that analyzes your code, roasts it based on your chosen intensity, and gives you **actual actionable advice** — not just vibes.
 
 Built with:
